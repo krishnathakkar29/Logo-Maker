@@ -1,7 +1,7 @@
 import { Image, PencilRuler, Shield } from "lucide-react";
 import React, { useState } from "react";
 
-const SideNav = ({selectedIndex}) => {
+const SideNav = ({ selectedIndex }) => {
   const menuList = [
     {
       id: 1,
@@ -27,14 +27,14 @@ const SideNav = ({selectedIndex}) => {
       <div>
         {menuList.map((menu, index) => (
           <h2
+            onClick={() => {
+              setActiveIndex(index);
+              selectedIndex(index);
+            }}
             key={index}
             className={`p-2 text-lg px-7 text-gray-500 my-2 cursor-pointer hover:bg-primary hover:text-white flex items-center gap-2 ${
               activeIndex == index ? "bg-primary text-white" : ""
             }`}
-            onClick={() => {
-              setActiveIndex(index);
-              selectedIndex(index)
-            }}
           >
             <menu.icon />
             {menu.name}
