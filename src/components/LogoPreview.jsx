@@ -1,8 +1,9 @@
 import { UpdateStorageContext } from "@/context/UpdateStorageContext";
+import html2canvas from "html2canvas";
 import { icons } from "lucide-react";
 import React, { useContext, useEffect, useState } from "react";
 
-function LogoPreview() {
+function LogoPreview({downloadIcon}) {
   const { updateStorage, setUpdateStorage } = useContext(UpdateStorageContext);
 
   const [storageValue, setStorageValue] = useState();
@@ -29,6 +30,28 @@ function LogoPreview() {
     );
   };
 
+  useEffect(() => {
+    if(downloadIcon){
+      downloadPngLogo()
+    }
+  } , [downloadIcon])
+
+
+  /*Download Functionality*/
+  const downloadPngLogo = () => {
+    const downloadId = document.querySelector("#downloadId")
+
+    html2canvas(downloadId, {
+      backgroundColor: null
+    }).then(canvas => {
+      const pngImg = canvas.toDataURL('image/png')
+      const downloadLink = document.createElement('a')
+      downloadLink.href = pngImg;
+      downloadLink.download = 'KT_Icon_png';
+      downloadLink.click()
+    })
+  }
+
   return (
     <div className="flex items-center justify-center h-screen w-full">
       <div
@@ -38,6 +61,7 @@ function LogoPreview() {
         }}
       >
         <div
+        id="downloadId"
           className="h-full w-full flex items-center justify-center"
           style={{
             borderRadius: storageValue?.bgRounded,

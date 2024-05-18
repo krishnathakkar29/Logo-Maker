@@ -10,10 +10,14 @@ import { UpdateStorageContext } from "./context/UpdateStorageContext";
 function App() {
   const [selectedIndex, setSelectedIndex] = useState();
   const [updateStorage , setUpdateStorage] = useState({});
+
+  const [downloadIcon , setDownloadIcon] = useState()
+  console.log(downloadIcon)
+
   return (
     <>
       <UpdateStorageContext.Provider value={{updateStorage , setUpdateStorage}}>
-        <Header />
+        <Header downloadIcon={setDownloadIcon} />
         <div className="w-64 fixed">
           <SideNav selectedIndex={(valIdx) => setSelectedIndex(valIdx)} />
         </div>
@@ -25,7 +29,7 @@ function App() {
             {selectedIndex == 0 ? <IconController /> : <BgController />}
           </div>
           <div className="md:col-span-4 bg-blue-400">
-            <LogoPreview />
+            <LogoPreview  downloadIcon={downloadIcon}/>
           </div>
         </div>
       </UpdateStorageContext.Provider>
