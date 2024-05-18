@@ -1,19 +1,23 @@
 import { Smile } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ColorPickerController from "./ColorPickerController";
+import { UpdateStorageContext } from "@/context/UpdateStorageContext";
+import IconList from "./IconList";
 
 const IconController = () => {
-  const [size, setSize] = useState(280);
-  const [rotate, setRotate] = useState(0);
-  const [color, setColor] = useState("#fff");
 
-  let storageValue;
-  try {
-    storageValue = JSON.parse(localStorage.getItem("value") || "{}");
-  } catch (e) {
-    storageValue = {};
-  }
+  const storageValue = JSON.parse(localStorage.getItem('value'))
+
+  const [size, setSize] = useState(storageValue?storageValue?.iconSize:280);
+  const [rotate, setRotate] = useState(storageValue?storageValue?.iconRotate:0);
+  const [color, setColor] = useState(storageValue?storageValue?.iconColor:"#fff");
+
+  //from icon list
+  const [icon, setIcon] = useState(storageValue?storageValue?.icon:"Smile");
+
+  const {updateStorage , setUpdateStorage} = useContext(UpdateStorageContext)
+
 
   useEffect(() => {
     const updatedValue = {
@@ -21,19 +25,18 @@ const IconController = () => {
       iconSize: size,
       iconRotate: rotate,
       iconColor: color,
-      icon: "Smile",
+      icon: icon,
     };
 
+    setUpdateStorage(updatedValue)
     localStorage.setItem("value", JSON.stringify(updatedValue));
-  }, [size, rotate, color]);
+  }, [size, rotate, color, icon]);
+  
 
   return (
     <div>
       <div>
-        <label>Icon</label>
-        <div className="p-3 cursor-pointer bg-gray-200 rounded-md w-[50px] h-[50px]  flex items-center justify-center my-2">
-          <Smile />
-        </div>
+       <IconList selectedIcon={(val) => setIcon(val)} />
 
         <div className="py-2">
           <label className="p-2 flex justify-between items-center">
@@ -43,7 +46,7 @@ const IconController = () => {
             defaultValue={[size]}
             max={512}
             step={1}
-            onValueChange={(e) => setSize(e)}
+            onValueChange={(e) => setSize(e[0])}
           />
         </div>
 
@@ -55,7 +58,7 @@ const IconController = () => {
             defaultValue={[rotate]}
             max={360}
             step={1}
-            onValueChange={(e) => setRotate(e)}
+            onValueChange={(e) => setRotate(e[0])}
           />
         </div>
 
