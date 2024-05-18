@@ -8,7 +8,12 @@ const IconController = () => {
   const [rotate, setRotate] = useState(0);
   const [color, setColor] = useState("#fff");
 
-  const storageValue = JSON.parse(localStorage.getItem("value"));
+  let storageValue;
+  try {
+    storageValue = JSON.parse(localStorage.getItem("value") || "{}");
+  } catch (e) {
+    storageValue = {};
+  }
 
   useEffect(() => {
     const updatedValue = {

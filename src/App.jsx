@@ -6,8 +6,7 @@ import IconController from "./components/IconController";
 import SideNav from "./components/SideNav";
 
 function App() {
-
-  const [selectedIndex, setSelectedIndex] = useState()
+  const [selectedIndex, setSelectedIndex] = useState();
   return (
     <>
       <Header />
@@ -15,14 +14,13 @@ function App() {
         <SideNav selectedIndex={(valIdx) => setSelectedIndex(valIdx)} />
       </div>
       <div className="ml-64 grid grid-cols-1 md:grid-cols-6 fixed">
-        <div className="md:col-span-2 bg-green-300 h-screen shadow-md p-5 overflow-y-scroll  ">
-          {
-            selectedIndex == 0 ? <IconController /> : <BgController/>
-          }
+        <div
+          className="md:col-span-2 border h-screen 
+        shadow-sm p-5 overflow-auto "
+        >
+          {selectedIndex == 0 ? <IconController /> : <BgController />}
         </div>
-        <div className="md:col-span-4 bg-blue-400">
-          Icon preview
-        </div>
+        <div className="md:col-span-4 bg-blue-400">Icon preview</div>
       </div>
     </>
   );
